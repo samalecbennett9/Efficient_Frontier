@@ -123,8 +123,8 @@ def st_dev(rows, returns):
     return vol_annualized
 
 #function to make table for second page
-def make_table(s1, s2, s3, s4, s5, s6, s7, s8):
 
+def make_table(s1, s2, s3, s4, s5, s6, s7, s8):
     historical = pd.DataFrame({
         s1.name: s1,
         s2.name: s2,
@@ -136,16 +136,17 @@ def make_table(s1, s2, s3, s4, s5, s6, s7, s8):
         s8.name: s8
     }) * 100
 
-    # Round to 2 decimals
-    historical = historical.round(2)
+    # Ensure numeric and round
+    historical = historical.apply(pd.to_numeric, errors="coerce").round(2)
 
-    # Coerce everything numeric, then convert numpy floats to native floats
-    historical = historical.apply(pd.to_numeric, errors="coerce")
-    historical = historical.applymap(lambda x: float(x) if isinstance(x, np.floating) else x)
-    historical = historical.style.set_table_styles(
-    [{"selector": "th", "props": [("text-align", "center")]}]
-    )
-    return historical
+    # Style the DataFrame
+    styled = historical.style.set_properties(**{
+        'text-align': 'center'
+    }).set_table_styles([
+        {"selector": "th", "props": [("text-align", "center")]}
+    ])
+
+    return styled
 
 #function to graph for second page
 def historical_graph(asset_df):

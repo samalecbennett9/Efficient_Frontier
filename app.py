@@ -119,7 +119,7 @@ else:
     st.plotly_chart(historical_graph, use_container_width=True)
 
 #table
-    st.dataframe(historical_table)
+    st.write(historical_table)
 
 
 
