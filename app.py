@@ -19,7 +19,7 @@ selected_assets = st.multiselect(
 )
 
 #user selects historical time frame
-time_frame = st.slider("Choose your desired time frame in years (1-10):", 1, 10)
+time_frame = st.slider("Choose your desired time frame in years (2-10)", 2, 10)
 
 #Read data
 asset_data = ef.read_data("EF_Data_Summary.csv")
@@ -67,14 +67,18 @@ efficient_frontier = efficient_frontier.drop_duplicates(['Return', 'Variance'])
 #make the portfolio table
 table = ef.clean_and_table(efficient_frontier, selected_assets_with_weight)
 
-#graph the EF
-graph = ef.graph(table)
+
 
 #show table df
 st.dataframe(table)
 
+
+#graph the EF
+fig = ef.graph(table)
+
+
 #show EF graph
-st.pyplot(graph)
+st.pyplot(fig)
 
 
 

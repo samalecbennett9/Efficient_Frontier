@@ -81,14 +81,17 @@ def clean_and_table(efficient_frontier, selected_assets):
 
 #Graph
 def graph(efficient_frontier):
-    plt.figure(figsize=(10, 6))
-    plt.scatter(
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    ax.scatter(
         efficient_frontier['Standard Deviation (%)'],
         efficient_frontier['Expected Return (%)'],
         marker='o'
     )
-    plt.title('Efficient Frontier')
-    plt.xlabel('Risk (Standard Deviation) (%)')
-    plt.ylabel('Expected Return (%)')
-    plt.grid(True)
-    plt.show()
+    
+    ax.set_title('Efficient Frontier')
+    ax.set_xlabel('Risk (Standard Deviation) (%)')
+    ax.set_ylabel('Expected Return (%)')
+    ax.grid(True)
+    
+    return fig
