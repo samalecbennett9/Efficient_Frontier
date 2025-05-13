@@ -1,6 +1,8 @@
 import cvxpy as cp
 import pandas as pd
 import matplotlib.pyplot as plt
+import plotly.express as px
+import numpy as np
 
 def read_data(file):
     return pd.read_csv(file)
@@ -80,17 +82,73 @@ def clean_and_table(efficient_frontier, selected_assets):
 
 #Graph
 def graph(efficient_frontier):
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(10, 6))  # Create figure and axes
     
-    ax.scatter(
-        efficient_frontier['Standard Deviation (%)'],
-        efficient_frontier['Expected Return (%)'],
-        marker='o'
-    )
-    
+    x = efficient_frontier['Standard Deviation (%)']
+    y = efficient_frontier['Expected Return (%)']
+
+    # Plot the scatter
+    ax.scatter(x, y, marker='o')
+
+    # Annotate each point
+    for i in range(len(efficient_frontier)):
+        label = f"Portfolio {i+1}"
+        ax.annotate(
+            label,
+            (x.iloc[i], y.iloc[i]),
+            textcoords="offset points",
+            xytext=(5, 5),  # Offset text position
+            ha='left',
+            fontsize=8
+        )
+
+    # Axis titles and grid
     ax.set_title('Efficient Frontier')
     ax.set_xlabel('Risk (Standard Deviation) (%)')
     ax.set_ylabel('Expected Return (%)')
     ax.grid(True)
     
+    return fig
+
+#function to find expected returns for second page
+def expected_return(rows, returns):
+    returns = returns.tail(rows).mean()
+    returns_annualized = (1 + returns)**12 - 1
+    return returns_annualized
+
+#function to find expected risk for second page
+def st_dev(rows, returns):
+    vol = returns.tail(rows).std()
+    vol_annualized = vol * 12**0.5
+    return vol_annualized
+
+#function to make table for second page
+def make_table(s1, s2, s3, s4, s5, s6, s7, s8):
+
+    historical = pd.DataFrame({
+        s1.name: s1,
+        s2.name: s2,
+        s3.name: s3,
+        s4.name: s4,
+        s5.name: s5,
+        s6.name: s6,
+        s7.name: s7,
+        s8.name: s8
+    }) * 100
+
+    # Round to 2 decimals
+    historical = historical.round(2)
+
+    # Coerce everything numeric, then convert numpy floats to native floats
+    historical = historical.apply(pd.to_numeric, errors="coerce")
+    historical = historical.applymap(lambda x: float(x) if isinstance(x, np.floating) else x)
+
+    return historical
+
+#function to graph for second page
+def historical_graph(asset_df):
+    fig = px.line(asset_df, x="Month", y=["S&P 500", "Fixed Income", "Gold", "Private Credit", "Real Estate", "Private Equity"], 
+              title="Historical Asset Prices",
+              labels={"value": "Price", "variable": "Asset"},
+              markers=True)
     return fig
