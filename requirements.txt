@@ -3,3 +3,4 @@ cvxpy
 numpy
 matplotlib
 streamlit
+plotly.express
