@@ -142,7 +142,9 @@ def make_table(s1, s2, s3, s4, s5, s6, s7, s8):
     # Coerce everything numeric, then convert numpy floats to native floats
     historical = historical.apply(pd.to_numeric, errors="coerce")
     historical = historical.applymap(lambda x: float(x) if isinstance(x, np.floating) else x)
-
+    historical = historical.style.set_table_styles(
+    [{"selector": "th", "props": [("text-align", "center")]}]
+    )
     return historical
 
 #function to graph for second page
