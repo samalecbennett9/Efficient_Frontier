@@ -138,7 +138,7 @@ def make_table(s1, s2, s3, s4, s5, s6, s7, s8):
 
     # Ensure numeric and round
     historical = historical.apply(pd.to_numeric, errors="coerce").round(2)
-
+    historical = historical.applymap(lambda x: f"{x:.2f}" if pd.notnull(x) else "")
     # Style the DataFrame
     styled = historical.style.set_properties(**{
         'text-align': 'center'
