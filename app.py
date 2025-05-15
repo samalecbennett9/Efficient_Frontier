@@ -83,16 +83,13 @@ if page == "Efficient Frontier":
     #make the portfolio table for first page
     table = ef.clean_and_table(efficient_frontier, selected_assets_with_weight)
 
-    #create the graph for first page
-    fig = ef.graph(table)
 
     #create the second graph
     graph2 = ef.graph2(table)
 
     #show table df
     st.dataframe(table)
-    #show graph
-    st.pyplot(fig)
+
     #show second graph
     st.plotly_chart(graph2, use_container_width=True)
 
