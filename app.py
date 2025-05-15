@@ -17,7 +17,18 @@ st.sidebar.title("Navigate")
 page = st.sidebar.radio("", ["Efficient Frontier", "Historical Data"])
 
 if page == "Efficient Frontier":
+
+    #Read data
+    asset_data = ef.read_data("EF_Data_Summary.csv")
+
+    #make spot date
+    spot_date = asset_data['Month'].iloc[-1]
+
     st.header("Efficient Frontier")
+    
+    #spot data subheader
+    st.subheader(f"The spot date is {spot_date}")
+
     #user selects assets to include
     assets = ['S&P 500', 'Fixed Income', 'Gold', 'Private Credit', 'Real Estate', 'Private Equity']
     selected_assets = st.multiselect(
@@ -28,9 +39,6 @@ if page == "Efficient Frontier":
 
     #user selects historical time frame
     time_frame = st.slider("Choose your desired time frame in years (2-10)", 2, 10)
-
-    #Read data
-    asset_data = ef.read_data("EF_Data_Summary.csv")
 
     #Filter data to just include selected assets
     asset_data_filtered = asset_data[selected_assets]
@@ -78,10 +86,15 @@ if page == "Efficient Frontier":
     #create the graph for first page
     fig = ef.graph(table)
 
+    #create the second graph
+    graph2 = ef.graph2(table)
+
     #show table df
     st.dataframe(table)
     #show graph
     st.pyplot(fig)
+    #show second graph
+    st.plotly_chart(graph2, use_container_width=True)
 
 else:
 #create the table for second page

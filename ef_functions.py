@@ -2,7 +2,7 @@ import cvxpy as cp
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
-import numpy as np
+import plotly.graph_objects as go
 
 def read_data(file):
     return pd.read_csv(file)
@@ -109,6 +109,36 @@ def graph(efficient_frontier):
     ax.grid(True)
     
     return fig
+
+#trying the above but with plotly
+def graph2(efficient_frontier):
+    fig = go.Figure()
+
+    # Scatter plot
+    fig.add_trace(go.Scatter(
+        x=efficient_frontier['Standard Deviation (%)'],
+        y=efficient_frontier['Expected Return (%)'],
+        mode='markers+text',
+        text=[f"Portfolio {i+1}" for i in range(len(efficient_frontier))],
+        textposition="top right",
+        marker=dict(size=8),
+        name='Portfolios'
+    ))
+    xmax = max(efficient_frontier['Standard Deviation (%)']) 
+    xmin = min(efficient_frontier['Standard Deviation (%)'])
+    xrange = xmax - xmin
+
+    fig.update_layout(
+        title='Efficient Frontier',
+        xaxis_title='Risk (Standard Deviation) (%)',
+        yaxis_title='Expected Return (%)',
+        template='plotly_white',
+        height=600,
+        width=800,
+        xaxis=dict(range=[xmin - 0.05 * xrange, xmax + 0.1 * xmax]),
+    )
+    return fig
+
 
 #function to find expected returns for second page
 def expected_return(rows, returns):
