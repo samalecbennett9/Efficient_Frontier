@@ -44,7 +44,7 @@ if page == "Efficient Frontier":
     asset_data_filtered = asset_data[selected_assets]
 
     #Filter data to just include time frame
-    included_rows = int(time_frame)*12
+    included_rows = int(time_frame)*12+1 #changed this (+1)
     asset_data_filtered_twice = asset_data_filtered.tail(included_rows)
 
     #add "Weight" to selected assets for later use
@@ -101,12 +101,12 @@ else:
 
     returns_annualized_10 = ef.expected_return(119, monthly_return_data_full)
     vol_annualized_10 = ef.st_dev(119, monthly_return_data_full)
-    returns_annualized_5 = ef.expected_return(59, monthly_return_data_full)
-    returns_annualized_2 = ef.expected_return(23, monthly_return_data_full)
-    returns_annualized_1 = ef.expected_return(11, monthly_return_data_full)
-    vol_annualized_5 = ef.st_dev(59, monthly_return_data_full)
-    vol_annualized_2 = ef.st_dev(23, monthly_return_data_full)
-    vol_annualized_1 = ef.st_dev(11, monthly_return_data_full)
+    returns_annualized_5 = ef.expected_return(60, monthly_return_data_full)
+    returns_annualized_2 = ef.expected_return(24, monthly_return_data_full)
+    returns_annualized_1 = ef.expected_return(12, monthly_return_data_full)
+    vol_annualized_5 = ef.st_dev(60, monthly_return_data_full)
+    vol_annualized_2 = ef.st_dev(24, monthly_return_data_full)
+    vol_annualized_1 = ef.st_dev(12, monthly_return_data_full)
 
     s1 = pd.Series(returns_annualized_1, name=("Returns (%)", "1 Year"))
     s2 = pd.Series(returns_annualized_2, name=("Returns (%)", "2 Year"))
