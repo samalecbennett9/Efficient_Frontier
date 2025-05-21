@@ -178,6 +178,7 @@ def make_table(s1, s2, s3, s4, s5, s6, s7, s8):
 
     return styled
 
+
 #function to graph for second page
 def historical_graph(asset_df):
     fig = px.line(asset_df, x="Month", y=["S&P 500", "Fixed Income", "Gold", "Private Credit", "Real Estate", "Private Equity"], 

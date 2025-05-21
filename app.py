@@ -124,6 +124,7 @@ else:
     historical_graph = ef.historical_graph(asset_data2)
 
 #header
+
     st.header("Historical Data")
 #graph
     st.plotly_chart(historical_graph, use_container_width=True)
