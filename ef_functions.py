@@ -21,7 +21,7 @@ def monthly_return(data):
     asset_data_returns = asset_data_returns.loc[:, asset_data_returns.columns.str.contains("Return")]
     return asset_data_returns
 
-#calculate avg compounded yearly returns for each asset and annualize them
+#calculate avg compounded yearly returns for each asset and annualize them (now not commpounded)
 def calculate_avg_returns(data):
     expected_returns = data.mean()
     expected_returns_compounded = (1 + expected_returns)**12 - 1
@@ -143,8 +143,8 @@ def graph2(efficient_frontier):
 #function to find expected returns for second page
 def expected_return(rows, returns):
     returns = returns.tail(rows).mean()
-    returns_annualized = (1 + returns)**12 - 1
-    return returns_annualized
+    compounded_returns = (1 + returns)**12 - 1
+    return compounded_returns
 
 #function to find expected risk for second page
 def st_dev(rows, returns):
