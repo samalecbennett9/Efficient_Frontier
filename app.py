@@ -19,7 +19,7 @@ page = st.sidebar.radio("", ["Efficient Frontier", "Historical Data"])
 if page == "Efficient Frontier":
 
     #Read data
-    asset_data = ef.read_data("EF_Data_Summary.csv")
+    asset_data = ef.read_data("EF_Data_Summary_v2.csv")
 
     #make spot date
     spot_date = asset_data['Month'].iloc[-1]
@@ -93,14 +93,23 @@ if page == "Efficient Frontier":
     #show second graph
     st.plotly_chart(graph2, use_container_width=True)
 
+    st.markdown(
+    """
+    <p style='font-size:small; font-style:italic; text-align:right;'>
+        Expected return is the annualized monthly arithmetic mean return
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
 else:
 #create the table for second page
-    asset_data_full = ef.read_data("EF_Data_Summary.csv")
+    asset_data_full = ef.read_data("EF_Data_Summary_v2.csv")
 
     monthly_return_data_full = ef.monthly_return(asset_data_full)
 
-    returns_annualized_10 = ef.expected_return(119, monthly_return_data_full)
-    vol_annualized_10 = ef.st_dev(119, monthly_return_data_full)
+    returns_annualized_10 = ef.expected_return(120, monthly_return_data_full)
+    vol_annualized_10 = ef.st_dev(120, monthly_return_data_full)
     returns_annualized_5 = ef.expected_return(60, monthly_return_data_full)
     returns_annualized_2 = ef.expected_return(24, monthly_return_data_full)
     returns_annualized_1 = ef.expected_return(12, monthly_return_data_full)
@@ -118,9 +127,11 @@ else:
     s8 = pd.Series(vol_annualized_10, name=("Volatility (Standard Deviation(%))", "10 Year"))
 
     historical_table = ef.make_table(s1, s2, s3, s4, s5, s6, s7, s8)
+
+
 #create the historical graph for second page
 
-    asset_data2 = ef.read_data("EF_Data_Summary.csv")
+    asset_data2 = ef.read_data("EF_Data_Summary_v2.csv")
     historical_graph = ef.historical_graph(asset_data2)
 
 #header
