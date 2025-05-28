@@ -72,6 +72,8 @@ if page == "Efficient Frontier":
 
     #optimize
     efficient_portfolios = ef.optimize(target_returns, weights, cov_matrix, expected_annualized_returns)
+    if not efficient_portfolios:
+        st.error("⚠️ This optimization has failed due to constraints. Change time frame or selected assets and try again.")
 
     # Convert to DataFrame
     efficient_frontier = pd.DataFrame(efficient_portfolios)
@@ -86,7 +88,7 @@ if page == "Efficient Frontier":
 
     #create the second graph
     graph2 = ef.graph2(table)
-
+    
     #show table df
     st.dataframe(table)
 
@@ -101,7 +103,7 @@ if page == "Efficient Frontier":
     """,
     unsafe_allow_html=True
 )
-
+    
 else:
 #create the table for second page
     asset_data_full = ef.read_data("EF_Data_Summary_v2.csv")
@@ -127,6 +129,8 @@ else:
     s8 = pd.Series(vol_annualized_10, name=("Volatility (Standard Deviation(%))", "10 Year"))
 
     historical_table = ef.make_table(s1, s2, s3, s4, s5, s6, s7, s8)
+    historical_table.index = historical_table.index.str.replace(" Monthly Return", "", regex=False)
+
 
 
 #create the historical graph for second page
