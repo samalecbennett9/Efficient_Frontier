@@ -8,7 +8,7 @@ import pandas as pd
 st.title("Efficient Frontier")
 
 #info
-st.write("This application calculates an Efficient Frontier for up to six assets. The user can choose which assets they would like to incorporate into their portfolio. Options include: S&P 500, Fixed Income, Gold, Private Credit, Real Estate, and Private Equity. The user can also select the time frame of the historical data used in the calculation. All data is ending December 31, 2024.")
+st.write("This application calculates an Efficient Frontier for up to six assets. The user can choose which assets they would like to incorporate into their portfolio. Options include: S&P 500, Fixed Income, Gold, Private Credit, Real Estate, and Private Equity. The user can also select the time frame of the historical data used in the calculation.")
 
 
 
@@ -141,6 +141,9 @@ else:
 #header
 
     st.header("Historical Data")
+
+    spot_date = asset_data_full['Month'].iloc[-1]
+    st.subheader(f"The spot date is {spot_date}")
 #graph
     st.plotly_chart(historical_graph, use_container_width=True)
 
