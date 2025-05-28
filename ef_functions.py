@@ -26,7 +26,7 @@ def calculate_avg_returns(data):
     expected_returns = data.mean()*12
     return expected_returns
 
-# Optimization
+#Optimize
 def optimize(target_returns, weights, cov_matrix, expected_returns):
     efficient_portfolios = []
     for target_return in target_returns:
@@ -41,17 +41,21 @@ def optimize(target_returns, weights, cov_matrix, expected_returns):
             ]
         # Solve the problem
         prob = cp.Problem(objective, constraints)
-        prob.solve()
-        if prob.status == 'optimal':
-            annualized_return = expected_returns.values @ weights.value
-            annualized_variance = portfolio_variance.value
-            efficient_portfolios.append({
-                'Weights': weights.value,
-                'Return': annualized_return,
-                'Variance': annualized_variance
+        try:
+            prob.solve()
+            if prob.status == 'optimal':
+                annualized_return = expected_returns.values @ weights.value
+                annualized_variance = portfolio_variance.value
+                efficient_portfolios.append({
+                    'Weights': weights.value,
+                    'Return': annualized_return,
+                    'Variance': annualized_variance
                 })
+        except cp.SolverError:
+            # You can optionally log or print this for debugging
+            pass  # Skip failed cases silently
     return efficient_portfolios
-
+    
 def clean_and_table(efficient_frontier, selected_assets):
     # Split the 'Weights' into independent columns
     efficient_frontier[selected_assets] = pd.DataFrame(efficient_frontier['Weights'].tolist(), index=efficient_frontier.index)
@@ -168,13 +172,9 @@ def make_table(s1, s2, s3, s4, s5, s6, s7, s8):
     historical = historical.apply(pd.to_numeric, errors="coerce").round(2)
     historical = historical.applymap(lambda x: f"{x:.2f}" if pd.notnull(x) else "")
     # Style the DataFrame
-    styled = historical.style.set_properties(**{
-        'text-align': 'center'
-    }).set_table_styles([
-        {"selector": "th", "props": [("text-align", "center")]}
-    ])
+ 
 
-    return styled
+    return historical
 
 
 #function to graph for second page
